@@ -71,7 +71,7 @@ public class Main {
 
             if (d % 2 == 0) {
                 for (int anArr : arr) {
-                    count[((anArr >> 8 * d) & 0xFF) + 1]++;
+                    count[((anArr >> (d << 3)) & 0xFF) + 1]++;
                 }
 
                 for (int r = 0; r < R; r++) {
@@ -79,11 +79,11 @@ public class Main {
                 }
 
                 for (int anArr : arr) {
-                    aux[count[(anArr >> 8 * d) & 0xFF]++] = anArr;
+                    aux[count[(anArr >> (d << 3)) & 0xFF]++] = anArr;
                 }
             } else {
                 for (int anArr : aux) {
-                    count[((anArr >> 8 * d) & 0xFF) + 1]++;
+                    count[((anArr >> (d << 3)) & 0xFF) + 1]++;
                 }
 
                 for (int r = 0; r < R; r++) {
@@ -91,7 +91,7 @@ public class Main {
                 }
 
                 for (int anArr : aux) {
-                    arr[count[(anArr >> 8 * d) & 0xFF]++] = anArr;
+                    arr[count[(anArr >> (d << 3)) & 0xFF]++] = anArr;
                 }
             }
             Arrays.fill(count, 0);
