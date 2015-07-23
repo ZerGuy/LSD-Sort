@@ -32,7 +32,7 @@ public class Main {
 
             lsdTimeAvg += stop - start;
 
-            if(!Arrays.equals(data, data1)){
+            if (!Arrays.equals(data, data1)) {
                 System.err.println("ERR");
                 break;
             }
@@ -42,7 +42,7 @@ public class Main {
         lsdTimeAvg /= TEST_NUM;
         System.out.println("Q Elapsed AVG:   " + qTimeAvg);
         System.out.println("LSD Elapsed AVG: " + lsdTimeAvg);
-        System.out.println("ratio: " + (double)qTimeAvg/lsdTimeAvg);
+        System.out.println("ratio: " + (double) qTimeAvg / lsdTimeAvg);
 
     }
 
@@ -69,23 +69,33 @@ public class Main {
         int[] count = new int[R + 1];
         for (int d = 0; d < W; d++) {
 
-            for (int anArr : arr) {
-                count[((anArr >> 8 * d) & 0xFF) + 1]++;
+            if (d % 2 == 0) {
+                for (int anArr : arr) {
+                    count[((anArr >> 8 * d) & 0xFF) + 1]++;
+                }
+
+                for (int r = 0; r < R; r++) {
+                    count[r + 1] += count[r];
+                }
+
+                for (int anArr : arr) {
+                    aux[count[(anArr >> 8 * d) & 0xFF]++] = anArr;
+                }
+            } else {
+                for (int anArr : aux) {
+                    count[((anArr >> 8 * d) & 0xFF) + 1]++;
+                }
+
+                for (int r = 0; r < R; r++) {
+                    count[r + 1] += count[r];
+                }
+
+                for (int anArr : aux) {
+                    arr[count[(anArr >> 8 * d) & 0xFF]++] = anArr;
+                }
             }
-
-            for (int r = 0; r < R; r++) {
-                count[r + 1] += count[r];
-            }
-
-            for (int anArr : arr) {
-                aux[count[(anArr >> 8 * d) & 0xFF]++] = anArr;
-            }
-
-            System.arraycopy(aux, 0, arr, 0, N);
-
             Arrays.fill(count, 0);
         }
-
     }
 
 }
